@@ -1,16 +1,30 @@
 import Image from "next/image";
+import TitleBar from "./modules/title";
+import About from "./modules/about";
+import StartButton from "./modules/Buttons";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        
+    <main className="flex min-h-screen flex-col items-center justify-between px-24 py-6">
+      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm">
+        <TitleBar/>
+        <br></br>
+        <About/>
+        <br></br>
+        <StartButton/>
       </div>
     </main>
   );
 }
 
 /*
+Header
+Photo/Camera
+
+
+
+
+
 Fast fashion:
 fast degrading _____
 cite all sources (prompt?)
