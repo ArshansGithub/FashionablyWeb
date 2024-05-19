@@ -1,18 +1,22 @@
+"use client";
 import "../globals.css";
 
 export default function StartButton() {
-  const clickEvent = () => console.log("button clicked");
+
+  async function test() {
+    console.log("button clicked")
+  }
 
   return (
-    <div className="w-full align-middle text-center ">
-      <button 
-        onClick={clickEvent}
-        className="border-solid border-[0.25vw] border-[--foreground-rgb] rounded-[1vw]
-        w-[10vw] h-[5vw] text-[3vw]"
-      >
-        <strong>START</strong>
-      </button>
-    </div>
-    
+    <form action={test}>
+        <div className="w-full align-middle text-center ">
+        <button 
+        type="submit"
+          className="border-4 rounded"
+        > 
+          Push Me
+        </button>
+      </div>
+    </form>
   );
 }

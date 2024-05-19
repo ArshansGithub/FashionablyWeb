@@ -2,15 +2,16 @@ import Image from "next/image";
 import TitleBar from "./modules/title";
 import About from "./modules/about";
 import StartButton from "./modules/Buttons";
+import CustomWebcam from "./modules/CustomWebcam";
 
 export default function Home() {
   return (
     <main className="">
         <TitleBar/>
+        {/* <br></br>
+        <About/> */}
         <br></br>
-        <About/>
-        <br></br>
-        <StartButton/>
+        <CustomWebcam></CustomWebcam>
     </main>
   );
 }
