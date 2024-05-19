@@ -2,7 +2,7 @@ import Image from "next/image";
 import TitleBar from "./modules/title";
 import About from "./modules/about";
 import StartButton from "./modules/Buttons";
-import CustomWebcam from "./modules/CustomWebcam";
+import ImageSelection from "./modules/ImageSelection";
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
         {/* <br></br>
         <About/> */}
         <br></br>
-        <CustomWebcam></CustomWebcam>
+        <ImageSelection></ImageSelection>
     </main>
   );
 }
