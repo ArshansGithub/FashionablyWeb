@@ -7,40 +7,29 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload"
 import { styled } from "@mui/material/styles"
 
 export default function ImageSelection() {
-    const webcamRef = useRef(null);
+  const webcamRef = useRef(null); 
+  var uploadRef = useRef(null);
 
-    const [screenState, setScreenState] = useState(0); 
-    const [imgSrc, setImgSrc] = useState('');
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
 
-  // create a capture function
   const capture = useCallback(() => {
     const imageSrc : string = webcamRef.current!.getScreenshot();
     setImgSrc(imageSrc);
   }, [webcamRef]);
 
+  const unCapture = () => { setImgSrc(null)}
+
   const onUpload = (event) => {
-    const file = event.target.files[0];
+    uploadRef = event.target.files[0];
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      setImgSrc(reader.result);
-      setScreenState(2);
+      setImgSrc(reader.result as string | null);
     };
 
     reader.readAsDataURL(file)
   };
 
-  const onTake = () => {
-    setScreenState(1);
-  };
-
-  const onRetake = () => {
-    setScreenState(0);
-  }
-
-  const onContinue = () => {
-    setScreenState(3);
-  }
 
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -55,52 +44,56 @@ export default function ImageSelection() {
   });
     
     return (
-        <div className="container">
-            {screenState == 0 ? (
-                <div className="btn-container">
-                  <label htmlFor="upload-image">
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<CloudUploadIcon />}
-                    >
-                      Upload Photo
-                      <VisuallyHiddenInput type="file" />
-                    </Button>
-                    <input
-                      id="upload-image"
-                      hidden
-                      accept="image/*"
-                      type="file"
-                      onChange={onUpload}
-                    >
-                    </input>
-                  </label>
-                </div>
-            ) : (
-              <div className="confirm-container">
-              <h3>Is this photo ok?</h3>
-              <img src={imgSrc} alt="your photo">
-              </img>
+      <div className="container w-full align-center">
+        {imgSrc == null ? (
+          <div className="capture-container">
+            <label htmlFor="upload-image">
               <Button
                 component="label"
+                role={undefined}
                 variant="contained"
-                color="error"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
               >
-                Choose New Photo
+                Upload Photo
+                <VisuallyHiddenInput type="file" />
               </Button>
-              <Button
-                component="label"
-                variant="contained"
-                color="success"
+              <input
+                id="upload-image"
+                hidden
+                accept="image/*"
+                type="file"
+                onChange={onUpload}
+                ref={uploadRef}
               >
-                Continue
-              </Button>
-            </div>
-            )}
-        </div>
-
+              </input>
+            </label>
+          </div>
+        ) : (
+          <div className="confirm-container w-full align-center">
+            <img src={imgSrc as string} alt="webcam"></img>
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              onClick={unCapture}
+              color="error"
+            >
+              Go Back
+            </Button>
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              onClick={unCapture}
+              color="success"
+            >
+              Continue
+            </Button>
+          </div>
+        )}
+      </div>
     );
 }
