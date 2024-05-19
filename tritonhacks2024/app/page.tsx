@@ -8,10 +8,10 @@ export default function Home() {
   return (
     <main className="">
         <TitleBar/>
-        {/* <br></br>
-        <About/> */}
         <br></br>
-        <ImageSelection></ImageSelection>
+        <About/>
+        <br></br>
+        <ImageSelection />
     </main>
   );
 }

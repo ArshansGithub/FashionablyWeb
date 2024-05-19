@@ -7,27 +7,23 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload"
 import { styled } from "@mui/material/styles"
 
 export default function ImageSelection() {
-  const webcamRef = useRef(null); 
-  var uploadRef = useRef(null);
 
-  const [imgSrc, setImgSrc] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>();
 
-  const capture = useCallback(() => {
-    const imageSrc : string = webcamRef.current!.getScreenshot();
-    setImgSrc(imageSrc);
-  }, [webcamRef]);
+  const resetUpload = () => {setFile(null)}
 
-  const unCapture = () => { setImgSrc(null)}
+  const onUpload = (event : ChangeEvent<HTMLInputElement>) => {
+    if(event.target.files) {
+      setFile(event.target.files[0]);
+    }
+  };
 
-  const onUpload = (event) => {
-    uploadRef = event.target.files[0];
-    const reader = new FileReader();
+  const onContinue = () => {
+    if(!file) {
+      return;
+    }
 
-    reader.onloadend = () => {
-      setImgSrc(reader.result as string | null);
-    };
-
-    reader.readAsDataURL(file)
+    
   };
 
 
@@ -44,9 +40,9 @@ export default function ImageSelection() {
   });
     
     return (
-      <div className="container w-full align-center">
-        {imgSrc == null ? (
-          <div className="capture-container">
+      <div className="h-16 w-70 flex place-content-center container w-full align-center">
+        {file == null ? (
+          <div className=" capture-container">
             <label htmlFor="upload-image">
               <Button
                 component="label"
@@ -61,23 +57,22 @@ export default function ImageSelection() {
               <input
                 id="upload-image"
                 hidden
-                accept="image/*"
+                accept=".png, .jpg, .jpeg"
                 type="file"
                 onChange={onUpload}
-                ref={uploadRef}
               >
               </input>
             </label>
           </div>
         ) : (
           <div className="confirm-container w-full align-center">
-            <img src={imgSrc as string} alt="webcam"></img>
+            <img src={file.webkitRelativePath} alt="webcam"></img>
             <Button
               component="label"
               role={undefined}
               variant="contained"
               tabIndex={-1}
-              onClick={unCapture}
+              onClick={resetUpload}
               color="error"
             >
               Go Back
@@ -87,7 +82,7 @@ export default function ImageSelection() {
               role={undefined}
               variant="contained"
               tabIndex={-1}
-              onClick={unCapture}
+              onClick={onContinue}
               color="success"
             >
               Continue
